@@ -1,0 +1,114 @@
+  package Reader;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+public class ReadExcelFile extends GenerateXmlFile {
+
+    public static void main(String[] args) {
+
+  	GenerateXmlFile row1obj1 = new GenerateXmlFile(0,2,0,0,0,0,0);
+
+  	GenerateXmlFile row2obj2 = new GenerateXmlFile(3,5,0,0,0,0,1);
+
+   	GenerateXmlFile row3obj3 = new GenerateXmlFile(6,8,0,0,0,0,2);
+
+        ArrayList<Integer> numbersList = new ArrayList<Integer>();
+        Workbook workbook = null;
+        try {
+//            FileInputStream file = new FileInputStream("D:\\Aswinraja\\01_Projects\\Istar_Task\\Istar_sc2\\excel3.xls");
+//            workbook = new XSSFWorkbook(file);
+//            Sheet sheet = workbook.getSheetAt(0);
+        
+        	 FileInputStream file = new FileInputStream(new File("D:\\Aswinraja\\01_Projects\\Istar_Task\\Istar_sc2\\excel3.xls"));
+        
+             //Create Workbook instance holding reference to .xlsx file
+             XSSFWorkbook workbook1 = new XSSFWorkbook(file);
+          
+             //Get first/desired sheet from the workbook
+             XSSFSheet sheet = workbook1.getSheetAt(0);
+           
+            for (Row row : sheet) {
+                for (Cell cell : row) {
+                    if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+                    	int number =(int) cell.getNumericCellValue();
+                    //	System.out.println("nnnnnnn"+number);
+                        numbersList.add(number);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (workbook != null) {
+            }
+        }
+        System.out.println(numbersList);
+    
+
+    
+   System.out.println();
+
+
+  row1obj1.readingCol(row1obj1.rownum,row1obj1.limit,numbersList);
+
+  row2obj2.readingCol(row2obj2.rownum,row2obj2.limit,numbersList);
+   row3obj3.readingCol(row3obj3.rownum,row3obj3.limit,numbersList);
+
+
+    row1obj1.assigningValues(row1obj1.rowarr);
+       row2obj2.assigningValues(row2obj2.rowarr);
+
+        row3obj3.assigningValues(row3obj3.rowarr);
+
+          // ReadTextFile.printingInExcel();
+
+    
+       
+      
+   
+        row1obj1.hello(1);
+        row2obj2.hello(2);
+        row3obj3.hello(3);
+       // row2obj2.printingInXml(2);
+       // row3obj3.printingInXml(3);
+        
+          
+
+        	  
+           
+   
+    
+}
+
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
