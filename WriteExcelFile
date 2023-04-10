@@ -1,0 +1,341 @@
+//first task in java evaluation project
+package Reader;
+
+
+
+
+
+	import java.io.BufferedReader;
+
+	import java.io.FileOutputStream;
+
+	import java.io.FileReader;
+
+	import java.io.IOException;
+
+	import java.io.OutputStream;
+
+	import java.util.ArrayList;
+
+	import java.util.Collections;
+	
+	 import java.lang.AutoCloseable;
+
+	//import FileInputStream;
+
+
+
+	import org.apache.poi.ss.usermodel.Cell;
+
+	import org.apache.poi.ss.usermodel.Row;
+
+	import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+    import java.io.*;
+
+
+
+	public class GenerateExcelFile  {
+
+	       public int addresult;
+
+	        public int minrow;
+ 
+	      public  int maxrow;
+
+	        public int avgrow;
+
+	        public int rownum;
+
+	        public int limit;
+
+	       int row;
+
+	  public      ArrayList<Integer> rowarr = new ArrayList<Integer>();
+
+	       
+
+        public GenerateExcelFile(){
+
+
+
+	        }
+
+
+
+	       public GenerateExcelFile(int rownum, int limit, int addresult, int minrow, int maxrow, int avgrow, int row){
+
+	                this.rownum =  rownum;
+
+	                this.limit = limit;
+
+	                this.addresult =  addresult;
+
+	                this.minrow =   minrow;
+
+	                this.maxrow = maxrow;
+
+	                this.avgrow = avgrow;
+
+	                this.row =  row;
+
+	        }
+
+
+
+
+
+
+
+
+
+	      
+
+	        
+
+	        public  void  readingCol(int colnumber,int limit , ArrayList<Integer> Testarr)
+
+	          {
+
+	          for(int i = colnumber; i <= limit ; i++ ) {
+
+
+
+	          rowarr.add(Testarr.get(i));
+
+
+
+	          }
+
+	          System.out.format("the %d row values are \n", row );
+
+	          System.out.println(rowarr);
+
+	          }
+
+
+
+	      
+
+	        
+
+	        
+
+	        
+
+	        public void assigningValues(ArrayList<Integer> array) {
+
+	                  System.out.println("");
+
+	          for(int i : array ) {
+
+
+
+	                  addresult =  addresult + i;
+
+                 }
+
+
+
+	         System.out.format("sum the elements of %dst row is :\n",row);
+
+
+
+
+
+	          System.out.println(addresult);
+
+
+
+	          System.out.format("sorting the %dst row\n", row, rowarr);
+
+
+
+	          Collections.sort(rowarr);
+
+	          System.out.println(rowarr);
+
+	          minrow = rowarr.get(0);
+
+	          System.out.format("the %dst row minimum element is %d ",row,rowarr.get(0));
+
+
+
+	           maxrow = rowarr.get(rowarr.size() - 1);
+
+
+
+	     System.out.format("the %dst row maximum value is %d \n " ,row,maxrow);
+
+
+
+	     avgrow = addresult / rowarr.size();
+
+	     System.out.format("the average of %dst row is  %d \n " ,row,(addresult / rowarr.size()) );
+
+
+
+ System.out.println();
+
+
+
+	        }
+
+
+
+
+
+
+
+	 
+
+	        
+
+	        public static void printingInExcel(){
+
+	             
+
+	                XSSFWorkbook workbook = new XSSFWorkbook();
+
+	            
+
+
+
+	                 Sheet sheet = workbook.createSheet("Sheet1");
+
+	                 Row row = sheet.createRow(0);
+
+	                 
+
+	                 Cell cell = row.createCell(0);
+
+	                 cell.setCellValue("A");
+
+
+
+
+
+	                 Cell cell2 = row.createCell(1);
+
+	                 cell2.setCellValue("B");
+
+
+
+	                 Cell cell3 = row.createCell(2);
+
+	                 cell3.setCellValue("c");
+
+
+
+	                 Cell cell4 = row.createCell(3);
+
+	                 cell4.setCellValue("min");
+
+
+
+	                 Cell cell5 = row.createCell(4);
+
+	                 cell5.setCellValue("max");
+
+
+
+	                 Cell cell6 = row.createCell(5);
+
+	                 cell6.setCellValue("avg");
+
+
+
+
+
+	                 Cell cell7 = row.createCell(6);
+
+	                 cell7.setCellValue("sum");
+
+	                 
+
+	                 try {
+
+	                 OutputStream fileOut = new	FileOutputStream("D:\\Aswinraja\\01_Projects\\Istar_Task\\Istar_sc2\\excel1.xls");
+
+	                 workbook.write(fileOut);
+
+
+
+	                 fileOut.close();
+
+	                // workbook.close();
+
+	             } catch (IOException e) {
+
+	                 System.out.println("Error occurred while writing to file: " + e.getMessage());
+
+
+
+	             }
+
+
+
+	        }    
+
+
+	
+	
+	public void printingInExcel2(int i, ArrayList<Integer> array, int maxcol, int mincol, int avgcol, int addresult) {
+
+	   Workbook workbook = null;
+	    FileOutputStream out = null;
+	    
+	    try {
+	        workbook = new XSSFWorkbook(new FileInputStream("D:\\Aswinraja\\01_Projects\\Istar_Task\\Istar_sc2\\excel1.xls"));
+	        out = new FileOutputStream(new File("D:\\Aswinraja\\01_Projects\\Istar_Task\\Istar_sc2\\excel1.xls"));
+
+	        Sheet sheet = workbook.getSheetAt(0);
+	        Row newRow = sheet.createRow(i);
+
+	        for (int j = 0; j < 3; j++) {
+	            Cell cell = newRow.createCell(j);
+	            cell.setCellValue(array.get(j));
+	        }
+
+	        Cell cell2 = newRow.createCell(3);
+	        cell2.setCellValue(maxcol);
+
+	        Cell cell3 = newRow.createCell(4);
+	        cell3.setCellValue(mincol);
+
+	        Cell cell4 = newRow.createCell(5);
+	        cell4.setCellValue(avgcol);
+
+	        Cell cell5 = newRow.createCell(6);
+	        cell5.setCellValue(addresult);
+
+	        workbook.write(out);
+	        System.out.println("Data written successfully to file.");
+
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+
+	        	if (out != null) {
+	        	    out.close();
+	        	}
+
+	            if (out != null) {
+	                out.close();
+	            }
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	
+	
+	}
+	}
+	
+	
+	
+	
+	
