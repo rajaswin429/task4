@@ -1,0 +1,88 @@
+package Reader;
+
+	
+	import javax.xml.parsers.DocumentBuilderFactory;  
+	import javax.xml.parsers.DocumentBuilder;  
+	import org.w3c.dom.Document;  
+	import org.w3c.dom.NodeList;  
+	import org.w3c.dom.Node;  
+	import org.w3c.dom.Element;  
+	import java.io.File;  
+	import java.util.ArrayList;
+	
+	
+	
+	public class  ReadXmlFile extends  InsertDb {
+	  public static void main(String[] args) {
+            ArrayList arrlist = new ArrayList<Integer>();
+
+          	InsertDb row1obj1 = new InsertDb(0,2,0,0,0,0,0);
+
+          	InsertDb row2obj2 = new InsertDb(3,5,0,0,0,0,1);
+
+           	InsertDb row3obj3 = new InsertDb(6,8,0,0,0,0,2);
+		    try {
+		      // Create a DocumentBuilderFactory instance
+		      DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+		      // Create a DocumentBuilder instance
+		      DocumentBuilder builder = factory.newDocumentBuilder();
+
+		      // Parse the XML file
+		      Document doc = builder.parse("D:\\Aswinraja\\01_Projects\\Istar_Task\\Istar_sc2\\output2.xml");
+
+		      // Get the root element
+		      Element root = doc.getDocumentElement();
+
+		      // Get all the child nodes of the root element
+		      NodeList nodeList = root.getChildNodes();
+
+		      // Loop through the child nodes and print their attributes
+		      for (int i = 0; i < nodeList.getLength(); i++) {
+		        Node node = nodeList.item(i);
+
+		        if (node.getNodeType() == Node.ELEMENT_NODE) {
+		          Element element = (Element) node;
+
+		          // Print the attributes of the element
+		          System.out.println("Element: " + element.getTagName());
+		          
+		          System.out.println("First attribute: " + element.getAttribute("first"));
+		          String s1 = element.getAttribute("first");
+		          if (!s1.isEmpty()) {
+		           arrlist.add(Integer.parseInt(element.getAttribute("first")));
+		          }
+		           
+		           String second = element.getAttribute("second");
+		           if (!second.isEmpty()) {
+		           System.out.println("Second attribute: " + element.getAttribute("second"));
+		           arrlist.add(Integer.parseInt(element.getAttribute("second")));
+		           }
+		           String third = element.getAttribute("third");
+		           if (!third.isEmpty()) {
+		           System.out.println("Third attribute: " + element.getAttribute("third"));
+		          arrlist.add(Integer.parseInt(element.getAttribute("third")));
+		           }
+		           }
+		           
+		      }
+		    } catch (Exception e) {
+		      e.printStackTrace();
+		    }
+		  
+	  
+	  System.out.println(arrlist);
+	  
+	 row1obj1.readingCol(row1obj1.rownum,row1obj1.limit,arrlist);
+	  row2obj2.readingCol(row1obj1.rownum,row1obj1.limit,arrlist);
+	  row3obj3.readingCol(row1obj1.rownum,row1obj1.limit,arrlist);
+	  
+	  
+	  row1obj1.assigningValues(row1obj1.rowarr);
+      row2obj2.assigningValues(row2obj2.rowarr);
+
+       row3obj3.assigningValues(row3obj3.rowarr);
+	  
+	  
+	  }
+	}
