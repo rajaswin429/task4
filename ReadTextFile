@@ -1,0 +1,133 @@
+//first task in java evaluation project
+package Reader;
+
+
+
+	
+
+	import java.io.BufferedReader;
+
+	import java.io.FileOutputStream;
+
+	import java.io.FileReader;
+
+	import java.io.IOException;
+
+	import java.io.OutputStream;
+
+	import java.util.ArrayList;
+
+
+
+	import org.apache.poi.ss.usermodel.Cell;
+
+	import org.apache.poi.ss.usermodel.Row;
+
+	import org.apache.poi.ss.usermodel.Sheet;
+
+	import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+
+
+	public class ReadTextFile extends GenerateExcelFile {
+
+	        public static void main(String[] args) {
+
+	          ArrayList<Integer> numbersList = new ArrayList<Integer>();
+
+	       BufferedReader reader = null;
+
+	       GenerateExcelFile row1obj1 = new GenerateExcelFile(0,2,0,0,0,0,0);
+
+	       GenerateExcelFile row2obj2 = new GenerateExcelFile(3,5,0,0,0,0,1);
+
+	       GenerateExcelFile row3obj3 = new GenerateExcelFile(6,8,0,0,0,0,2);
+
+
+
+	       try {
+
+	           reader = new BufferedReader(new FileReader("D:\\Aswinraja\\01_Projects\\Istar_Task\\Istar_sc2\\file1.txt"));
+
+	           String line = null;
+
+
+
+	           while ((line = reader.readLine()) != null) {
+
+	               String[] tokens = line.split(" ");
+
+	               for (String token : tokens) {
+
+	                   int number = Integer.parseInt(token);
+
+	                   numbersList.add(number);
+
+	               }
+
+	           }
+
+	       } catch (IOException e) {
+
+	           e.printStackTrace();
+
+	       } finally {
+
+	           if (reader != null) {
+
+	               try {
+
+	                   reader.close();
+
+	               } catch (IOException e) {
+
+	                   e.printStackTrace();
+
+	               }
+
+	           }
+
+	       }
+
+
+
+	       System.out.println(numbersList);
+
+	       System.out.println();
+
+
+
+	          row1obj1.readingCol(row1obj1.rownum,row1obj1.limit,numbersList);
+
+	          row2obj2.readingCol(row2obj2.rownum,row2obj2.limit,numbersList);
+
+	          row3obj3.readingCol(row3obj3.rownum,row3obj3.limit,numbersList);
+
+
+
+	          row1obj1.assigningValues(row1obj1.rowarr);
+
+	                row2obj2.assigningValues(row2obj2.rowarr);
+
+	                 row3obj3.assigningValues(row3obj3.rowarr);
+
+	                 ReadTextFile.printingInExcel();
+
+	                 row1obj1.printingInExcel2(1,row1obj1.rowarr,row1obj1.minrow,row1obj1.maxrow,row1obj1.avgrow,row1obj1.addresult);
+
+	                 row1obj1.printingInExcel2(2,row2obj2.rowarr,row2obj2.minrow,row2obj2.maxrow,row2obj2.avgrow,row2obj2.addresult);
+
+	                 row1obj1.printingInExcel2(3,row3obj3.rowarr,row3obj3.minrow,row3obj3.maxrow,row3obj3.avgrow,row3obj3.addresult);
+
+	              
+
+
+
+	}
+
+
+
+	    
+	}
+
+
