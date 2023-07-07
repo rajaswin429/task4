@@ -1,4 +1,72 @@
-write java code to read a text file containing data                                                                                                                                       A  B  C
-10 40 60 
-20 70 80
-30 60 80    but ignore the first row which contains the column names and calculate sum,min,max,avg of each row  and their question values to a excel file with heading first row as A,B,C,SUM,MIN,MAX,AVG  which is created newly, write code separately such as Main.java , ReadText.java ,Calculate,java ,  WriteExcel.java . use arraylist within arraylist concept
+#!/bin/sh
+##############################################################################
+# Project Name : ISTAR-SC
+# Script ID    : sc_gwymxswift_start.sh
+# Purpose      : To start the gateway stl_all_fm_mxswift
+# Parameter    : None.
+# Run Command  : sc_gwyempin_start.sh
+# History      :
+# Date	    Ver    Author		Explain
+# --------  ---- -------- ---------------------------------
+# 20210909  1.0    NRI		gwymxswift start service
+# --------  ---- -------- ---------------------------------
+# Copyright(C) 2007-2017 Nomura Research Institute, Ltd. All Rights Reserved.
+##############################################################################
+
+#=================================================================
+#  Set Environment Variables
+#=================================================================
+MYNAME=`basename "$0"` 
+JOBNAME=`basename "$0" .sh`
+HOSTNAME=`hostname -s`
+
+SCRIPT_HOME=`dirname "$0"`
+SCRIPT_HOME=`cd "$SCRIPT_HOME"; pwd`
+
+# Include common variables
+. ${SCRIPT_HOME}/sc_apl_parameter.env	
+
+# Include common functions
+. ${SCRIPT_HOME}/sc_standard.func
+
+#=================================================================
+#  Main Process
+#=================================================================
+# display start messages and pre process
+preProc
+	
+	# display start message
+	jobLogMsg "${JOBNAME} job started."
+	jobLogMsg ""
+	
+	# Call toFinishFailOver function
+	toFinishFailOver
+	
+	jobLogMsg "Start the gateway stl_all_fm_mxswift command execution started."
+
+	jobLogMsg ""
+	COMMAND="${SC_HOME}/launch.sh ${JVM1} -x ${SC_NAS_EID_BATCH}/cursor_sharing.conf Gateway -i queue:///stl_all_fm_mxswift -r queue:///errq"
+	# Start gateway stl_all_fm_mxswift
+	execCommand
+
+	# save return status
+	RTNCD=$?
+
+	# error handling and display end message
+	if [ "${RTNCD}" -ne 0 ]; then
+		jobLogMsg ""
+		jobLogMsg "Start the gateway stl_all_fm_mxswift command execution failed. Gateway command error code is : ${RTNCD}"
+		jobLogMsg ""
+		jobLogMsg "${JOBNAME} job failed."
+		postProc
+	fi
+
+	jobLogMsg ""
+	jobLogMsg "Start the gateway stl_all_fm_mxswift command execution completed successfully."
+		
+	# display end messages
+	jobLogMsg ""
+	jobLogMsg "${JOBNAME} job completed successfully."
+
+# display end messages and post process
+postProc
